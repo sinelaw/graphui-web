@@ -3,8 +3,9 @@ package com.graphui.beta.shared.graph;
 import java.util.ArrayList;
 
 import com.graphui.beta.shared.types.Node;
-import com.graphui.beta.shared.types.Pair;
+import com.graphui.beta.shared.types.LayoutShape;
 
 public interface Visualizer {
-	<T> ArrayList<Pair<Double,Double>> Visualize(ArrayList<Node<T>> graph);
+	<T, U, S extends Number> 
+		ArrayList<LayoutShape<U,S>> Visualize(ArrayList<Node<T>> graph);
 }
