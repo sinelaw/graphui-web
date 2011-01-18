@@ -1,28 +1,27 @@
 package com.graphui.beta.shared.types;
 
-import com.google.gwt.core.client.JavaScriptObject;
 import com.graphui.beta.shared.types.interfaces.IPair;
 
-public class Pair<T,S>  extends JavaScriptObject implements IPair<T,S>
+public class Pair<T,S>  implements IPair<T,S>
 {
-	protected Pair() {	}
-	
-	public static native <U,V> Pair<U,V> create(U first, V second)
-	/*-{
-		return {First: first, Second: second}; 
-	}-*/;
+	T first;
+	S second;
+	protected Pair(T first, S second) {	
+		this.setFirst(first);
+		this.setSecond(second);
+	}
 
-	public final native T getFirst() /*-{
-		return this.First;
-	}-*/;
-	public final native void setFirst(T val) /*-{
-		this.First = val;
-	}-*/;
+	public final  T getFirst() {
+		return this.first;
+	}
+	public final  void setFirst(T val) {
+		this.first = val;
+	}
 	
-	public final native S getSecond() /*-{
-		return this.Second;
-	}-*/;
-	public final native void setSecond(S val) /*-{
-		this.Second = val;
-	}-*/;
+	public final  S getSecond() {
+		return this.second;
+	}
+	public final  void setSecond(S val) {
+		this.second = val;
+	}
 }

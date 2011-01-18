@@ -15,12 +15,12 @@ public class RaphaelLayouter  {
 			Shape shape = pshape.getShape();
 			Vector2D<Double> pos = pshape.getPosition();
 			Vector2D<Double> scale = pshape.getScale();
-			shape.animate(new JSONObject(pos), animTime);
+			shape.animate(new JSONObject(pos.asJSO()), animTime);
 			shape.animate(new JSONObject(Vector2DToScale(scale)), animTime);
 		}
 	}
 	public static native <T extends Number> JavaScriptObject Vector2DToScale(Vector2D<T> vec)
 	/*-{
-		return { xtimes: vec.X, ytimes: vec.Y };
+		return { xtimes: vec.x, ytimes: vec.y };
 	}-*/;
 }

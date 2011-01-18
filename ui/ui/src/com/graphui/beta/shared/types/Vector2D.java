@@ -3,28 +3,31 @@ package com.graphui.beta.shared.types;
 import com.google.gwt.core.client.JavaScriptObject;
 import com.graphui.beta.shared.types.interfaces.IPair;
 
-public class Vector2D<T extends Number> extends JavaScriptObject implements IPair<T,T>
+public class Vector2D<T extends Number> implements IPair<T,T>
 {
-	protected Vector2D() {	}
+	T x, y;
 	
-	public static native <U extends Number> Vector2D<U> create(U x, U y)
-	/*-{
-		return {X: first, Y: second}; 
-	}-*/;
-
-	public final native T getFirst() /*-{
-		return this.X;
-	}-*/;
-	public final native void setFirst(T val) /*-{
-		this.X = val;
-	}-*/;
+	public Vector2D(T x, T y) {
+		this.x = x;
+		this.y = y;
+	}
 	
-	public final native T getSecond() /*-{
-		return this.Y;
-	}-*/;
-	public final native void setSecond(T val) /*-{
-		this.Y = val;
-	}-*/;
+	@Override
+	public   T getFirst() {
+		return this.x;
+	}
+	@Override
+	public   void setFirst(T val) {
+		this.x = val;
+	}
+	@Override
+	public   T getSecond() {
+		return this.y;
+	}
+	@Override
+	public   void setSecond(T val) {
+		this.y = val;
+	}
 	
 	public T getX() {
 		return this.getFirst();
@@ -41,16 +44,20 @@ public class Vector2D<T extends Number> extends JavaScriptObject implements IPai
 	
 	public <U extends Number> Vector2D<Double> add(Vector2D<U> other)
 	{
-		return Vector2D.<Double>create(
+		return new Vector2D<Double>(
 				this.getX().doubleValue() + other.getX().doubleValue(), 
 				this.getY().doubleValue() + other.getY().doubleValue());
 	}
 
 	public <U extends Number> Vector2D<Double> scale(Double scalar)
 	{
-		return Vector2D.<Double>create(
+		return new Vector2D<Double>(
 				this.getX().doubleValue() * scalar, 
 				this.getY().doubleValue() * scalar);
 	}
-
+	public native JavaScriptObject asJSO()
+	/*-{
+		return {x: this.x, y: this.y};
+	}-*/;
+	
 }
