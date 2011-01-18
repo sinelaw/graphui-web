@@ -1,6 +1,8 @@
 package com.graphui.beta.shared.types;
 
 import com.google.gwt.core.client.JavaScriptObject;
+import com.google.gwt.json.client.JSONNumber;
+import com.google.gwt.json.client.JSONObject;
 import com.graphui.beta.shared.types.interfaces.IPair;
 
 public class Vector2D<T extends Number> implements IPair<T,T>
@@ -55,9 +57,11 @@ public class Vector2D<T extends Number> implements IPair<T,T>
 				this.getX().doubleValue() * scalar, 
 				this.getY().doubleValue() * scalar);
 	}
-	public native JavaScriptObject asJSO()
-	/*-{
-		return {x: this.x, y: this.y};
-	}-*/;
-	
+
+	public JSONObject asJSONObject(String xKey, String yKey) {
+		JSONObject jsPos = new JSONObject();
+		jsPos.put(xKey, new JSONNumber(this.getX().doubleValue()));
+		jsPos.put(yKey, new JSONNumber(this.getY().doubleValue()));
+		return jsPos;
+	}
 }
