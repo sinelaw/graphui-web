@@ -1,6 +1,7 @@
 package com.graphui.beta.shared.types;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import com.google.gwt.core.client.JavaScriptObject;
 
@@ -11,7 +12,7 @@ public class Node<T> extends JavaScriptObject {
 	protected Node() {
 	}
 	
-	public static native <U> Node<U> create(U value, ArrayList<Node<U>> outEdges, ArrayList<Node<U>> inEdges)
+	public static native <U> Node<U> create(U value, List<Node<U>> outEdges, List<Node<U>> inEdges)
 	/*-{
 		return {Value: value, OutEdges: outEdges, InEdges: inEdges}; 
 	}-*/;

@@ -9,6 +9,10 @@ public class Vector2D<T extends Number> implements IPair<T,T>
 {
 	T x, y;
 	
+	public Vector2D(Vector2D<T> other) {
+		this.x = other.getX();
+		this.y = other.getY();
+	}
 	public Vector2D(T x, T y) {
 		this.x = x;
 		this.y = y;

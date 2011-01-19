@@ -16,7 +16,7 @@ public class RaphaelLayouter  {
 			Vector2D<Double> pos = pshape.getPosition();
 			Vector2D<Double> scale = pshape.getScale();
 			shape.animate(pos.asJSONObject("x","y"), animTime);
-			shape.animate(scale.asJSONObject("xtimes","ytimes"), animTime);
+			//shape.animate(scale.asJSONObject("xtimes","ytimes"), animTime);
 		}
 	}
 }

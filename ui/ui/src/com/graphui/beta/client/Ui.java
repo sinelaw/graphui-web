@@ -1,12 +1,17 @@
 package com.graphui.beta.client;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+
 import com.google.gwt.core.client.EntryPoint;
-import com.google.gwt.core.client.Scheduler;
-import com.google.gwt.core.client.Scheduler.RepeatingCommand;
 import com.google.gwt.user.client.ui.RootPanel;
-import com.graphui.beta.shared.types.Vector2D;
+import com.graphui.beta.shared.graph.visualizers.GridVisualizer;
+import com.graphui.beta.shared.shapes.RaphaelLayouter;
+import com.graphui.beta.shared.types.LayoutShape;
+import com.graphui.beta.shared.types.Node;
 import com.hydro4ge.raphaelgwt.client.Raphael;
-import com.hydro4ge.raphaelgwt.client.Raphael.Circle;
+import com.hydro4ge.raphaelgwt.client.Raphael.Shape;
 
 /**
  * Entry point classes define <code>onModuleLoad()</code>.
@@ -17,35 +22,22 @@ public class Ui implements EntryPoint {
 	/**
 	 * This is the entry point method.
 	 */
-	Vector2D<Double> pos = new Vector2D<Double>(400.0,400.0); 
-	Vector2D<Double> vel = new Vector2D<Double>(20.0,20.0);
-
 	public void onModuleLoad() {
 		raphael = new Raphael(800,600);
 		RootPanel.get("root").add(raphael);
-		final Circle c = raphael.new Circle(400,400,20);
-		c.attr("fill","#ff0000");
-		c.attr("stroke","#ff0000");
-		c.attr("stroke-opacity",0.2);
-		c.attr("stroke-width",5.0);
-		Scheduler.get().scheduleFixedPeriod(new RepeatingCommand() {
-			@Override
-			public boolean execute() {
-				pos = pos.add(vel);
-				if (pos.getX() > 700 || pos.getX() < 100) {
-					vel.setX(-vel.getX());
-				}
-				if (pos.getY() > 500 || pos.getY() < 100) {
-					vel.setY(-vel.getY());
-				}
-				c.animate(pos.asJSONObject("cx", "cy"), 200);
-				return true;
-			}
-		}, 200);
 		
-//		c.addDomHandler(new ClickHandler(){
-//			@Override
-//			public void onClick(ClickEvent event) {
-//			}}, ClickEvent.getType());
+		Node<String> a = Node.create("a", null, null);
+		Node<String> b = Node.create("b", null, null);
+		Node<String> c = Node.create("c", null, null);
+		Node<String> d = Node.create("d", null, Arrays.asList(a,b,c));
+		Node<String> e = Node.create("e", Arrays.asList(a,b,c), null);
+		
+		List<Node<String>> graph = Arrays.asList(
+				a,b,c,d,e
+		);
+		
+		GridVisualizer<String> viz = new GridVisualizer<String>();
+		ArrayList<LayoutShape<Shape, Double>> layout = viz.Visualize(graph);
+		RaphaelLayouter.updateLayout(layout, 2000);
 	}
 }
