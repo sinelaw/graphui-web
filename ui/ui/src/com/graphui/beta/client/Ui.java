@@ -2,6 +2,7 @@ package com.graphui.beta.client;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
 
 import com.google.gwt.core.client.EntryPoint;
@@ -37,6 +38,8 @@ public class Ui implements EntryPoint {
 		);
 		
 		GridVisualizer<String> viz = new GridVisualizer<String>();
+		
+		
 		ArrayList<LayoutShape<Shape, Double>> layout = viz.Visualize(graph);
 		RaphaelLayouter.updateLayout(layout, 500);
 	}
