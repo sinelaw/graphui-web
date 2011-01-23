@@ -1,6 +1,5 @@
 package com.graphui.beta.shared.types;
 
-import com.google.gwt.core.client.JavaScriptObject;
 import com.google.gwt.json.client.JSONNumber;
 import com.google.gwt.json.client.JSONObject;
 import com.graphui.beta.shared.types.interfaces.IPair;
@@ -46,6 +45,10 @@ public class Vector2D<T extends Number> implements IPair<T,T>
 	}
 	public void setY(T val) {
 		this.setSecond(val);
+	}
+	
+	public String toString() {
+		return "x: " + this.x + ", y: " + this.y;
 	}
 	
 	public <U extends Number> Vector2D<Double> add(Vector2D<U> other)

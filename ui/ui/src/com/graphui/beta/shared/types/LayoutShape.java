@@ -14,19 +14,19 @@ public class LayoutShape<T, U extends Number> {
 	}
 	
 	public Vector2D<U> getPosition() {
-		return position;
+		return this.position;
 	}
 	public void setPosition(Vector2D<U> position) {
 		this.position = position;
 	}
 	public Vector2D<U> getScale() {
-		return position;
+		return this.scale;
 	}
-	public void setScale(Vector2D<U> position) {
-		this.position = position;
+	public void setScale(Vector2D<U> scale) {
+		this.scale = scale;
 	}
 	public T getShape() {
-		return shape;
+		return this.shape;
 	}
 	public void setShape(T shape) {
 		this.shape = shape;

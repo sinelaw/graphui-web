@@ -2,8 +2,6 @@ package com.graphui.beta.shared.shapes;
 
 import java.util.ArrayList;
 
-import com.google.gwt.core.client.JavaScriptObject;
-import com.google.gwt.json.client.JSONObject;
 import com.graphui.beta.shared.types.LayoutShape;
 import com.graphui.beta.shared.types.Vector2D;
 import com.hydro4ge.raphaelgwt.client.Raphael.Shape;
@@ -15,8 +13,8 @@ public class RaphaelLayouter  {
 			Shape shape = pshape.getShape();
 			Vector2D<Double> pos = pshape.getPosition();
 			Vector2D<Double> scale = pshape.getScale();
-			shape.animate(pos.asJSONObject("x","y"), animTime);
-			//shape.animate(scale.asJSONObject("xtimes","ytimes"), animTime);
+			shape.animate(pos.add(new Vector2D<Double>(100.0,100.0)).asJSONObject("cx","cy"), animTime);
+			shape.animate(scale.asJSONObject("rx","ry"), animTime);
 		}
 	}
 }

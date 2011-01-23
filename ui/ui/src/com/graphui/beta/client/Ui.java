@@ -38,6 +38,6 @@ public class Ui implements EntryPoint {
 		
 		GridVisualizer<String> viz = new GridVisualizer<String>();
 		ArrayList<LayoutShape<Shape, Double>> layout = viz.Visualize(graph);
-		RaphaelLayouter.updateLayout(layout, 2000);
+		RaphaelLayouter.updateLayout(layout, 500);
 	}
 }

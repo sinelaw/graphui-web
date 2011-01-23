@@ -11,7 +11,7 @@ import com.graphui.beta.shared.types.Vector2D;
 import com.hydro4ge.raphaelgwt.client.Raphael.Shape;
 
 public class GridVisualizer<T> implements Visualizer<T,Shape,Double> {
-	protected static double speed = 10.0;
+	protected static double speed = 20.0;
 	protected static double size = 10.0;
 	
 	@Override
@@ -27,8 +27,9 @@ public class GridVisualizer<T> implements Visualizer<T,Shape,Double> {
 			positionAcc = positionAcc.add(xVel);
 			if (positionAcc.getX() > 800) {
 				positionAcc.add(yVel);
+				positionAcc.setX(0.0);
 			}
-			Shape shape = Ui.raphael.new Circle(10,10,1.0);
+			Shape shape = Ui.raphael.new Ellipse(0,0,1.0,1.0);
 			layout.add(new LayoutShape<Shape,Double>(shape, copyVec(positionAcc), copyVec(scale)));
 		}
 		return layout;
