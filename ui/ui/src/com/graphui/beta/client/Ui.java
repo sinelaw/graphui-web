@@ -5,10 +5,13 @@ import java.util.HashMap;
 import java.util.List;
 
 import com.google.gwt.core.client.EntryPoint;
+import com.google.gwt.core.client.Scheduler;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.dom.client.MouseMoveEvent;
 import com.google.gwt.event.dom.client.MouseMoveHandler;
+import com.google.gwt.user.client.DOM;
+import com.google.gwt.user.client.Random;
 import com.google.gwt.user.client.ui.RootPanel;
 import com.graphui.beta.shared.graph.visualizers.GridVisualizer;
 import com.graphui.beta.shared.shapes.RaphaelLayouter;
@@ -22,6 +25,9 @@ import com.hydro4ge.raphaelgwt.client.Raphael.Shape;
  * Entry point classes define <code>onModuleLoad()</code>.
  */
 public class Ui implements EntryPoint {
+	private static final int CANVAS_HEIGHT = 400;
+	private static final int CANVAS_WIDTH = 800;
+
 	public static Raphael raphael;
 	
 	/**
@@ -31,7 +37,7 @@ public class Ui implements EntryPoint {
 	protected HashMap<Node<String>,LayoutShape<Shape,Double>> layout = new HashMap<Node<String>, LayoutShape<Shape,Double>>();
 	
 	public void onModuleLoad() {
-		raphael = new Raphael(800,600);
+		raphael = new Raphael(CANVAS_WIDTH,CANVAS_HEIGHT);
 		raphael.addStyleName("canvas");
 		RootPanel.get("root").add(raphael);
 		
@@ -42,7 +48,7 @@ public class Ui implements EntryPoint {
 					return;
 				}
 				grabbed.setPosition(new Vector2D<Double>((double)event.getX(), (double)event.getY()));
-				RaphaelLayouter.updateLayout(layout.values(), 0);
+				RaphaelLayouter.updateShapeLayout(0, grabbed);
 			}
 		}, MouseMoveEvent.getType());
 		
@@ -55,10 +61,16 @@ public class Ui implements EntryPoint {
 		List<Node<String>> graph = Arrays.asList(
 				a,b,c,d,e
 		);
-		
+		String[] colors = new String[] {
+			"r#d20000-#d20000:70-#ffa7a7",
+			"r#00d200-#00d200:70-#a7ffa7",
+			"r#0000d2-#0000d2:70-#a7a7ff",
+			"r#00d2d2-#00d2d2:70-#a7ffff",
+			"r#d2d200-#d2d200:70-#ffffa7",
+		};
 		for (Node<String> node : graph) {
 			Shape shape = raphael.new Ellipse(0, 0, 1.0, 1.0);
-			shape.attr("fill","r#d20000-#ffa7a7");
+			shape.attr("fill",colors[Random.nextInt(colors.length)]);
 			shape.attr("stroke-opacity",0.2);
 			shape.attr("stroke-width",0.1);
 			Vector2D<Double> pos = new Vector2D<Double>(0.0,0.0);
@@ -73,6 +85,8 @@ public class Ui implements EntryPoint {
 		
 		for (final LayoutShape<Shape,Double> lshape : layout.values()) {
 			final Shape shape = lshape.getShape();
+			lshape.getPosition().setX(Random.nextDouble()*CANVAS_WIDTH);
+			lshape.getPosition().setY(Random.nextDouble()*CANVAS_HEIGHT);
 			shape.addDomHandler(new ClickHandler(){
 				@Override
 				public void onClick(ClickEvent event) {
@@ -84,8 +98,9 @@ public class Ui implements EntryPoint {
 						grabbed = null;
 					}
 					else {
+						lshape.getShape().toFront();
 						lshape.getShape().attr("stroke-width", 1.0);
-						lshape.getShape().attr("opacity", 0.7);
+						lshape.getShape().attr("opacity", 0.3);
 						grabbed = lshape;
 					}
 				}
