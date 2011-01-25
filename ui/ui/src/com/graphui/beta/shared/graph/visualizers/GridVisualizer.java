@@ -11,7 +11,7 @@ import com.hydro4ge.raphaelgwt.client.Raphael.Shape;
 
 public class GridVisualizer<T> implements Visualizer<T,Shape,Double> {
 	protected static double speed = 20.0;
-	protected static double size = 10.0;
+	protected static double size = 30.0;
 	
 	@Override
 	public void UpdateLayout(HashMap<Node<T>, LayoutShape<Shape, Double>> graph) 
