@@ -13,7 +13,7 @@ import com.graphui.beta.shared.types.Vector2D;
 import com.hydro4ge.raphaelgwt.client.Raphael.Shape;
 
 public class TreeVisualizer<T> implements Visualizer<T,Shape,Double> {
-	protected static double separation = 20.0;
+	protected static double separation = 80.0;
 	protected static double size = 30.0;
 	
 	@Override
@@ -29,15 +29,17 @@ public class TreeVisualizer<T> implements Visualizer<T,Shape,Double> {
 		for (SortedNode<T> sortedNode : sortedNodes) {
 			int level = sortedNode.getLevel();
 			if (level != lastLevel) {
+				lastLevel = level;
 				pos.setX(0.0);
 				pos = pos.add(levelVec);
 			}
-			else {
-				pos = pos.add(midLevelVec);
-			}
-
+			
 			graph.get(sortedNode.getNode()).setPosition(pos.copy());
 			graph.get(sortedNode.getNode()).setScale(scale.copy());
+			
+			if (level == lastLevel) {
+				pos = pos.add(midLevelVec);
+			}
 		}
 	}
 
@@ -72,14 +74,15 @@ public class TreeVisualizer<T> implements Visualizer<T,Shape,Double> {
 		}
 		while (cur.size() > 0) {
 			Pair<Integer,Node<U>> pair = cur.remove(cur.size() - 1);
+			Node<U> node = pair.getSecond();
 			out.add(pair);
 			Integer level = pair.getFirst();
-			ArrayList<Node<U>> outNodes = new ArrayList<Node<U>>(pair.getSecond().getOutEdges());
+			ArrayList<Node<U>> outNodes = new ArrayList<Node<U>>(node.getOutEdges());
 			for (Node<U> outNode : outNodes) 
 			{
-				outNode.getOutEdges().remove(outNode);
+				node.disconnectOut(outNode);
 				if (outNode.getInEdges().size() == 0) {
-					cur.add(new Pair<Integer,Node<U>>(level, outNode));
+					cur.add(new Pair<Integer,Node<U>>(level + 1, outNode));
 				}
 			}
 		}

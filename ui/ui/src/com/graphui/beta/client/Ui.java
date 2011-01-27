@@ -1,22 +1,19 @@
 package com.graphui.beta.client;
 
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 
 import com.google.gwt.core.client.EntryPoint;
-import com.google.gwt.core.client.Scheduler;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.dom.client.MouseMoveEvent;
 import com.google.gwt.event.dom.client.MouseMoveHandler;
-import com.google.gwt.user.client.DOM;
 import com.google.gwt.user.client.Random;
 import com.google.gwt.user.client.ui.RootPanel;
-import com.graphui.beta.shared.graph.visualizers.GridVisualizer;
 import com.graphui.beta.shared.graph.visualizers.TreeVisualizer;
 import com.graphui.beta.shared.shapes.RaphaelLayouter;
 import com.graphui.beta.shared.types.LayoutShape;
+import com.graphui.beta.shared.types.ListUtils;
 import com.graphui.beta.shared.types.Node;
 import com.graphui.beta.shared.types.Vector2D;
 import com.hydro4ge.raphaelgwt.client.Raphael;
@@ -36,11 +33,14 @@ public class Ui implements EntryPoint {
 	 */
 	protected LayoutShape<Shape,Double> grabbed = null;
 	protected HashMap<Node<String>,LayoutShape<Shape,Double>> layout = new HashMap<Node<String>, LayoutShape<Shape,Double>>();
+	private Vector2D<Double> offset = new Vector2D<Double>(CANVAS_WIDTH/2.0,60.0);
 	
 	public void onModuleLoad() {
 		raphael = new Raphael(CANVAS_WIDTH,CANVAS_HEIGHT);
 		raphael.addStyleName("canvas");
 		RootPanel.get("root").add(raphael);
+		final RaphaelLayouter layouter = new RaphaelLayouter(raphael);
+		final Vector2D<Double> zeroVec = new Vector2D<Double>(0.0,0.0);
 		
 		raphael.addDomHandler(new MouseMoveHandler() {
 			@Override
@@ -49,17 +49,24 @@ public class Ui implements EntryPoint {
 					return;
 				}
 				grabbed.setPosition(new Vector2D<Double>((double)event.getX(), (double)event.getY()));
-				RaphaelLayouter.updateShapeLayout(0, grabbed);
+				layouter.updateShapeLayout(0, grabbed, zeroVec);
 			}
 		}, MouseMoveEvent.getType());
 		
-		Node<String> a = Node.create("a", null, null);
-		Node<String> b = Node.create("b", null, null);
-		Node<String> c = Node.create("c", null, null);
-		Node<String> d = Node.create("d", null, Arrays.asList(a,b,c));
-		Node<String> e = Node.create("e", Arrays.asList(a,b,c), null);
+		Node<String> a = Node.create("a");
+		Node<String> b = Node.create("b");
+		Node<String> c = Node.create("c");
+		Node<String> d = Node.create("d");
+		Node<String> e = Node.create("e");
 		
-		List<Node<String>> graph = Arrays.asList(
+		a.connectTo(b);
+		a.connectTo(c);
+		b.connectTo(e);
+		b.connectTo(d);
+		c.connectTo(d);
+		d.connectTo(e);
+		
+		List<Node<String>> graph = ListUtils.create(
 				a,b,c,d,e
 		);
 		String[] colors = new String[] {
@@ -108,6 +115,6 @@ public class Ui implements EntryPoint {
 			}, ClickEvent.getType());
 		}
 		
-		RaphaelLayouter.updateLayout(layout.values(), 500);
+		layouter.updateLayout(layout, 500, offset);
 	}
 }

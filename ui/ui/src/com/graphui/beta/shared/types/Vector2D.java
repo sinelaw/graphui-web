@@ -61,13 +61,19 @@ public class Vector2D<T extends Number> implements IPair<T,T>
 				this.getY().doubleValue() + other.getY().doubleValue());
 	}
 
-	public <U extends Number> Vector2D<Double> scale(Double scalar)
+	public <U extends Number> Vector2D<Double> subtract(Vector2D<U> other)
+	{
+		return this.add(other.scale(-1.0));
+	}
+	
+	public Vector2D<Double> scale(Double scalar)
 	{
 		return new Vector2D<Double>(
 				this.getX().doubleValue() * scalar, 
 				this.getY().doubleValue() * scalar);
 	}
 
+	
 	public JSONObject asJSONObject(String xKey, String yKey) {
 		JSONObject jsPos = new JSONObject();
 		jsPos.put(xKey, new JSONNumber(this.getX().doubleValue()));
