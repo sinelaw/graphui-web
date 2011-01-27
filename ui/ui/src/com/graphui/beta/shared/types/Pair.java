@@ -6,7 +6,7 @@ public class Pair<T,S>  implements IPair<T,S>
 {
 	T first;
 	S second;
-	protected Pair(T first, S second) {	
+	public Pair(T first, S second) {	
 		this.setFirst(first);
 		this.setSecond(second);
 	}

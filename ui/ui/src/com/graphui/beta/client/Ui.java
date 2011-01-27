@@ -14,6 +14,7 @@ import com.google.gwt.user.client.DOM;
 import com.google.gwt.user.client.Random;
 import com.google.gwt.user.client.ui.RootPanel;
 import com.graphui.beta.shared.graph.visualizers.GridVisualizer;
+import com.graphui.beta.shared.graph.visualizers.TreeVisualizer;
 import com.graphui.beta.shared.shapes.RaphaelLayouter;
 import com.graphui.beta.shared.types.LayoutShape;
 import com.graphui.beta.shared.types.Node;
@@ -78,15 +79,15 @@ public class Ui implements EntryPoint {
 			layout.put(node, new LayoutShape<Shape,Double>(shape, pos, scale));
 		}
 		
-		GridVisualizer<String> viz = new GridVisualizer<String>();
+		TreeVisualizer<String> viz = new TreeVisualizer<String>();
 		
 		
 		viz.UpdateLayout(layout);
 		
 		for (final LayoutShape<Shape,Double> lshape : layout.values()) {
 			final Shape shape = lshape.getShape();
-			lshape.getPosition().setX(Random.nextDouble()*CANVAS_WIDTH);
-			lshape.getPosition().setY(Random.nextDouble()*CANVAS_HEIGHT);
+			//lshape.getPosition().setX(Random.nextDouble()*CANVAS_WIDTH);
+			//lshape.getPosition().setY(Random.nextDouble()*CANVAS_HEIGHT);
 			shape.addDomHandler(new ClickHandler(){
 				@Override
 				public void onClick(ClickEvent event) {

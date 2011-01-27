@@ -27,14 +27,8 @@ public class GridVisualizer<T> implements Visualizer<T,Shape,Double> {
 				positionAcc.add(yVel);
 				positionAcc.setX(0.0);
 			}
-			entry.getValue().setPosition(copyVec(positionAcc));
-			entry.getValue().setScale(copyVec(scale));
+			entry.getValue().setPosition(positionAcc.copy());
+			entry.getValue().setScale(scale.copy());
 		}
 	}
-
-	private Vector2D<Double> copyVec(Vector2D<Double> vec) {
-		return new Vector2D<Double>(vec);
-	}
-
-
 }

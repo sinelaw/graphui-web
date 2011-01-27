@@ -16,6 +16,9 @@ public class Vector2D<T extends Number> implements IPair<T,T>
 		this.x = x;
 		this.y = y;
 	}
+	public Vector2D<T> copy() {
+		return new Vector2D<T>(this);
+	}
 	
 	@Override
 	public   T getFirst() {
